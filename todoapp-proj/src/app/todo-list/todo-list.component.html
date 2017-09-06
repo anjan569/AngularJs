@@ -1,0 +1,11 @@
+<h3>{{title}}</h3>
+
+<div class="input-field">
+      <input placeholder="What do you want to do" type="text" #todoText (keyup.enter)="onEnterPress(todoText.value)">
+      <!--<label for="first_name">Todo Task Name</label>-->
+</div>
+
+<p *ngFor="let todo of todoList">
+      <input type="checkbox" id="test5" />
+      <label for="test5">{{todo.name}}</label>
+    </p>

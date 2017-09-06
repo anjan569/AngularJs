@@ -1,0 +1,11 @@
+<div  class="row">
+  <div class="col s6">
+    <app-todo-list title="Project Todos" [todoList]="todoService.getProjectTodos()" 
+    (itemAdded) ="additemToList($event,'project')"></app-todo-list>
+  </div>
+  <div class="col s6">
+    <app-todo-list  title="Personal Todos" [todoList]="todoService.getPersonalTodos()" 
+    (itemAdded) ="additemToList($event,'personal')" ></app-todo-list>
+
+  </div>
+</div>
