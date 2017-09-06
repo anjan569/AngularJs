@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { TodolistService } from './../services/todolist.service';
+import { HttpModule } from '@angular/Http';
+import { RouterModule } from '@angular/router';
+import { TodoService } from './services/todolist.service';
 
+import { routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
@@ -17,9 +20,11 @@ import { ArchiveComponent } from './archive/archive.component';
     ArchiveComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [TodolistService],
+  providers: [TodoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
