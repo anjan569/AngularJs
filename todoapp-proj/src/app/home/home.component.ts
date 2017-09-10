@@ -12,11 +12,17 @@ export class HomeComponent implements OnInit {
 
    //projectTodos: Todo[];
    //personalTodos: Todo[];
+     today:number;
+     endDt:number;
   constructor(private todoService:TodoService) { 
      //this.projectTodos = this.todoservice.getTodoList()
      //.filter(todo => todo.type === 'project');
      //this.personalTodos = this.todoservice.getTodoList()
      //.filter(todo => todo.type === 'personal');
+     this.today = Date.now();
+     console.log("current date: "+this.today);
+     this.endDt =null;
+
   }
  
   ngOnInit() {
@@ -25,7 +31,13 @@ export class HomeComponent implements OnInit {
   additemToList(todoText:string,type:string)
   {
     console.log(todoText,type);
-    this.todoService.addTodo(todoText,type);
+    
+    this.todoService.addTodo(todoText,type,this.today,this.endDt);
+    
+  }
+
+  markItemAsDone(id: string) {
+    this.todoService.markItemAsCompleted(id,this.today);
   }
 
 }
