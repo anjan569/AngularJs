@@ -1,0 +1,17 @@
+<div class="col s12" *ngFor="let todo of todoService.getArchivedTodos(); let i=index">
+    <div class="card horizontal">
+      <div class="card-stacked">
+        <div class="card-content">
+          <p>{{todo.name}}</p>
+        
+         <span> <p class="col s10"> <i class=" small material-icons">hourglass_empty</i> {{todo.startDt | date}}</p> 
+         <p class="col s2"> <i class="small material-icons">hourglass_full</i>{{todo.endDt | date}}</p></span>
+        </div>
+        <div class="card-action">
+          
+           <a herf="#" (click)="undoTodoItem(todo.id)">   ROLL THIS BACK</a> 
+           <a  (click)="deteleTodoItem(todo.id);$event.stopPropagation()"> TRASH THIS</a>
+        </div>
+      </div>
+    </div>
+  </div>

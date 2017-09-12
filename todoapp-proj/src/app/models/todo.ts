@@ -3,15 +3,15 @@ export class Todo{
     name:string;
     iscomplete:boolean;
     type:string;
-    currentDt:number;
-    finishedDt:number;
-    constructor(id:string,name:string,isDone:boolean,type:string,cDt:number,fDt:number){
+    startDt:number;
+    endDt:number;
+    constructor(id:string,name:string,isDone:boolean,type:string,sDate:number,eDate:number = null){
         this.id = id;
         this.name = name;
         this.iscomplete = isDone;
         this.type =type;
-        this.currentDt = cDt;
-        this.finishedDt =fDt
+        this.startDt = sDate;
+        this.endDt =eDate;
     
     }
 }

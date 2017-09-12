@@ -17,6 +17,7 @@ export class TodoListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
   onEnterPress(text:string){

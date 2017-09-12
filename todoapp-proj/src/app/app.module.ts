@@ -11,6 +11,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { ItemcardsComponent } from './itemcards/itemcards.component';
+import { StatusHighlighterDirective } from './status-highlighter.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ItemcardsComponent } from './itemcards/itemcards.component';
     TodoListComponent,
     NavBarComponent,
     ArchiveComponent,
-    ItemcardsComponent
+    ItemcardsComponent,
+    StatusHighlighterDirective
   ],
   imports: [
     BrowserModule,

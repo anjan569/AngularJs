@@ -31,7 +31,7 @@ export class TodoService {
         this.todoList =Object.keys(respObj)
         .map(key => {
           let obj = respObj[key];
-           return new Todo(key,obj.name,obj.iscomplete,obj.type,obj.cDt,obj.fDt);
+           return new Todo(key,obj.name,obj.iscomplete,obj.type,obj.startDt,obj.endDt);
         })
     },(err => {
       console.log('Error in fetching data from Firebase',err);
@@ -50,12 +50,13 @@ export class TodoService {
     return this.todoList.filter(todo => todo.iscomplete);
   }
 
-  addTodo(name:string,type:string,cDt:number,fDt:number,isDone:boolean = false){
+  addTodo(name:string,type:string,isDone:boolean = false){
     
-    const newTodo = new Todo('',name,isDone,type,cDt,fDt);
+    const newTodo = new Todo('',name,isDone,type,Date.now());
 
     this.http.post(this.firebaseURL+ '.json',newTodo).subscribe(data => {
     console.log('Success',data);
+    newTodo.id = data.json().name;
     this.todoList.push(newTodo);
     console.log("Added Item:" +this.todoList);
     },(err => {
@@ -63,18 +64,18 @@ export class TodoService {
     }))
   }
 
-  markItemAsCompleted(id:string,fDt:number){
+  markItemAsCompleted(id:string){
     let todoObj = this.fetchTodoforId(id);
     todoObj.iscomplete = true;
-    todoObj.finishedDt = fDt;
-    
-    this.http.put(`${this.firebaseURL}/${id}.json`,todoObj).subscribe(res => console.log(res));
+    todoObj.endDt = Date.now();
+     this.http.put(`${this.firebaseURL}/${id}.json`,todoObj).subscribe(res => console.log(res));
   }
 
   markItemAsInCompleted(id:string){
     let todoObj = this.fetchTodoforId(id);
     todoObj.iscomplete = false;
-    todoObj.currentDt = Date.now();
+    todoObj.startDt = Date.now();
+    todoObj.endDt = null;
      console.log("Undo Item:" +todoObj);
     this.http.put(`${this.firebaseURL}/${id}.json`,todoObj).subscribe(res => console.log(res));
   }
