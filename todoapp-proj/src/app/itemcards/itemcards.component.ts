@@ -9,14 +9,12 @@ import { Component, OnInit,Output,EventEmitter,Input } from '@angular/core';
   styleUrls: ['./itemcards.component.css']
 })
 export class ItemcardsComponent implements OnInit {
-  @Input() todoList:Todo[];
+  @Input() filteredList:Todo[];
 
  @Output() itemDelete:EventEmitter<string> = new EventEmitter();
  @Output() itemUndo:EventEmitter<string> = new EventEmitter();
 
-  today:Number;
   constructor(private todoService: TodoService) { 
-    this.today = Date.now();
 
   }
 

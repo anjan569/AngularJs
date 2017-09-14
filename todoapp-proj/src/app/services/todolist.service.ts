@@ -2,24 +2,29 @@ import { Injectable } from '@angular/core';
 import { Todo } from './../models/todo';
 import { Http } from '@angular/http';
 import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import * as _ from 'lodash';
+
 
 @Injectable()
 export class TodoService {
 
-  private todoList:Todo[]
+  private todoList:Todo[];
+  private todoListSub:Subject<Todo[]>;
+  public todoList$:Observable<Todo[]>; 
+
+
+  
   firebaseURL:string;
   
   constructor(private http:Http) {
     this.firebaseURL = "https://my-todo-app-43f14.firebaseio.com/myapp"
     this.todoList = [];
     this.getTodoList();
-   // this.todoList.push(new Todo('Complete Task',false,'project'));
-    //this.todoList.push(new Todo('Analysis',false,'project'));
-    //this.todoList.push(new Todo('Fill timesheets',false,'personal'));
-    //this.todoList.push(new Todo('Complete Task',false,'project'));
-    //this.todoList.push(new Todo('catch the Train',false,'personal'));
+    this.todoListSub = new Subject();
+    this.todoList$ = this.todoListSub.asObservable();
   }
 
   getTodoList(){
@@ -32,7 +37,8 @@ export class TodoService {
         .map(key => {
           let obj = respObj[key];
            return new Todo(key,obj.name,obj.iscomplete,obj.type,obj.startDt,obj.endDt);
-        })
+        });
+        this.todoListSub.next(this.todoList);
     },(err => {
       console.log('Error in fetching data from Firebase',err);
     }))
@@ -58,6 +64,7 @@ export class TodoService {
     console.log('Success',data);
     newTodo.id = data.json().name;
     this.todoList.push(newTodo);
+    this.todoListSub.next(this.todoList);
     console.log("Added Item:" +this.todoList);
     },(err => {
       console.log('Error occured',err);
@@ -69,6 +76,7 @@ export class TodoService {
     todoObj.iscomplete = true;
     todoObj.endDt = Date.now();
      this.http.put(`${this.firebaseURL}/${id}.json`,todoObj).subscribe(res => console.log(res));
+     this.todoListSub.next(this.todoList);
   }
 
   markItemAsInCompleted(id:string){
@@ -78,6 +86,7 @@ export class TodoService {
     todoObj.endDt = null;
      console.log("Undo Item:" +todoObj);
     this.http.put(`${this.firebaseURL}/${id}.json`,todoObj).subscribe(res => console.log(res));
+    this.todoListSub.next(this.todoList);
   }
   
   fetchTodoforId(id:string){
@@ -89,6 +98,7 @@ export class TodoService {
     console.log("mark as deteleted"+id)
     let todoObj = this.fetchTodoforId(id);
     this.http.delete(`${this.firebaseURL}/${id}.json`,todoObj).subscribe(res => console.log(res));
+    this.todoListSub.next(this.todoList);
   }
  
   

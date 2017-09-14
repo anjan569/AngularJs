@@ -1,4 +1,4 @@
-<div class="col s12" *ngFor="let todo of todoService.getArchivedTodos(); let i=index">
+<div class="col s12" *ngFor="let todo of filteredList; let i=index">
     <div class="card horizontal">
       <div class="card-stacked">
         <div class="card-content">
